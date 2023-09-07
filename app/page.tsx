@@ -5,7 +5,7 @@ import Image from "next/image";
 
 function Home() {
   return (
-    <main className="mt-10">
+    <main>
       <h1 className="text-center text-7xl leading-snug">
         Hi, I am <span className="font-extrabold">sarthak</span>, get a glimpse
         about what goes in my head.
@@ -15,7 +15,7 @@ function Home() {
           <Image src="/p1.jpeg" alt="header" fill className="object-cover" />
         </div>
         <div className="flex flex-1 flex-col justify-center gap-6">
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-5xl font-bold leading-[1.1]">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </h2>
           <p className="text-zinc-400 text-lg">

@@ -7,6 +7,7 @@ import useAuthSession from "@/hooks/useAuthSession";
 import { Loader2 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function AuthLinks() {
   const router = useRouter();
@@ -23,9 +24,12 @@ function AuthLinks() {
   return (
     <>
       {isLoggedIn ? (
-        <Button className="text-lg" onClick={logout}>
-          Logout
-        </Button>
+        <>
+          <Link href="/write">Write</Link>
+          <Button className="text-lg" onClick={logout}>
+            Logout
+          </Button>
+        </>
       ) : (
         <Button className="text-lg" onClick={setModalChange}>
           Login

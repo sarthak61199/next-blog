@@ -9,17 +9,22 @@ const oswald = Oswald({ subsets: ["latin"] });
 
 function Navbar() {
   return (
-    <nav className="flex justify-between h-[100px] items-center">
+    <nav className="flex justify-between h-[100px] items-center mb-10">
       <div className="flex gap-4">
         <Instagram />
         <Linkedin />
         <Twitter />
       </div>
-      <h1
-        className={cn("text-5xl font-extrabold text-center", oswald.className)}
-      >
-        sarthak.
-      </h1>
+      <Link href="/">
+        <h1
+          className={cn(
+            "text-5xl font-extrabold text-center",
+            oswald.className
+          )}
+        >
+          sarthak.
+        </h1>
+      </Link>
       <div className="flex gap-4 text-xl space-x-2">
         <div className="flex items-center space-x-2">
           <Sun size={16} />
@@ -27,7 +32,6 @@ function Navbar() {
           <Moon size={16} />
         </div>
         <div className="flex space-x-4 items-center">
-          <Link href="/">Home</Link>
           <AuthLinks />
         </div>
       </div>
