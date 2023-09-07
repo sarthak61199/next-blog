@@ -10,6 +10,7 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 function AuthModal() {
   const open = useAuthModalStore((state) => state.open);
@@ -21,7 +22,10 @@ function AuthModal() {
         <DialogHeader>
           <DialogTitle>Login</DialogTitle>
           <DialogDescription className="flex justify-center pt-4">
-            <Button className="font-bold uppercase flex gap-4">
+            <Button
+              className="font-bold uppercase flex gap-4"
+              onClick={() => signIn("google")}
+            >
               <Image src="/google.svg" alt="google" width={20} height={20} />
               Log in with Google
             </Button>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Oswald } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Switch } from "../ui/switch";
-import NavLinks from "./nav-links";
+import AuthLinks from "./auth-links";
 
 const oswald = Oswald({ subsets: ["latin"] });
 
@@ -26,7 +26,10 @@ function Navbar() {
           <Switch />
           <Moon size={16} />
         </div>
-        <NavLinks />
+        <div className="flex space-x-4 items-center">
+          <Link href="/">Home</Link>
+          <AuthLinks />
+        </div>
       </div>
     </nav>
   );
