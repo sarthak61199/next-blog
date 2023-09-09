@@ -1,5 +1,9 @@
 function Footer() {
-  return <p className="text-center mt-20 mb-10">&copy; Sarthak Agarwal</p>;
+  return (
+    <footer className="text-center h-[100px] mt-10 flex items-center justify-center">
+      <p>&copy; Sarthak Agarwal</p>
+    </footer>
+  );
 }
 
 export default Footer;

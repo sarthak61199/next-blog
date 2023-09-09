@@ -3,16 +3,16 @@ import Link from "next/link";
 
 interface ICategoryItem {
   name: string;
-  colorClass: string;
+  colorHash: string;
 }
 
-function CategoryItem({ name, colorClass }: ICategoryItem) {
+function CategoryItem({ name, colorHash }: ICategoryItem) {
   return (
     <Link
-      href={`/post/${name}`}
+      href={`/category/${name}`}
       className={cn(
-        colorClass,
-        "flex flex-1 items-center justify-center rounded-md text-xl p-4"
+        "flex flex-1 items-center justify-center rounded-md text-xl p-4",
+        colorHash
       )}
     >
       {name}
