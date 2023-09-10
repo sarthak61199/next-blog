@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -13,9 +13,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import useSWR, { Fetcher } from "swr";
+import { Category } from "@prisma/client";
+import { Loader2 } from "lucide-react";
 
 function Write() {
   const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+
+  const fetcher: Fetcher<Category[], string> = (...args) =>
+    fetch(...args).then((res) => res.json());
+
+  const { data, error, isLoading } = useSWR("/api/category", fetcher);
 
   const editor = useEditor({
     extensions: [
@@ -38,9 +47,36 @@ function Write() {
     },
   });
 
+  const validate = () => {
+    if (
+      title?.length === 0 ||
+      category?.length === 0 ||
+      editor?.getHTML()?.length === 0
+    ) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const isValid = validate();
+    if (isValid) {
+      console.log(title, category, editor?.getHTML());
+    }
+  };
+
+  if (isLoading) {
+    return <Loader2 className="h-6 w-6 animate-spin" />;
+  }
+
+  if (error) {
+    return <p>Something went wrong</p>;
+  }
+
   return (
-    <section className="h-[calc(100svh-200px-5rem)] flo">
-      <form className="space-y-8">
+    <section className="h-[calc(100svh-200px-5rem)]">
+      <form className="space-y-8" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Title"
@@ -53,14 +89,18 @@ function Write() {
           </BubbleMenu>
         ) : null}
         <EditorContent editor={editor} />
-        <Select>
+        <Select onValueChange={(value: string) => setCategory(value)}>
           <SelectTrigger className="w-[400px]">
             <SelectValue placeholder="Choose a category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+            {!isLoading && !error
+              ? data?.map((item: Category) => (
+                  <SelectItem value={item.name} key={item.id}>
+                    {item.name}
+                  </SelectItem>
+                ))
+              : null}
           </SelectContent>
         </Select>
         <Button className="text-lg">Publish</Button>

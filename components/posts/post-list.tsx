@@ -5,8 +5,7 @@ const postList = [
   {
     id: 1,
     title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse molestias tempore nostrum ullam ex dolor sit deserunt voluptatum? Et, ipsum? Lorem ipsum dolor sit amet consectetur, adipisicing elit. ",
+
     imgUrl: "/p1.jpeg",
     createdAt: new Date(),
     name: "John Doe",
@@ -15,8 +14,7 @@ const postList = [
   {
     id: 2,
     title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse molestias tempore nostrum ullam ex dolor sit deserunt voluptatum? Et, ipsum? Lorem ipsum dolor sit amet consectetur, adipisicing elit. ",
+
     imgUrl: "/p1.jpeg",
     createdAt: new Date(),
     name: "John Doe",
@@ -25,8 +23,7 @@ const postList = [
   {
     id: 3,
     title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse molestias tempore nostrum ullam ex dolor sit deserunt voluptatum? Et, ipsum? Lorem ipsum dolor sit amet consectetur, adipisicing elit. ",
+
     imgUrl: "/p1.jpeg",
     createdAt: new Date(),
     name: "John Doe",

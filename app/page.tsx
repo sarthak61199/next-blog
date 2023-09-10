@@ -1,7 +1,9 @@
 import CategoryList from "@/components/category/category-list";
 import HotList from "@/components/hot/hot-list";
 import PostList from "@/components/posts/post-list";
+import formatDate from "@/lib/date-format";
 import Image from "next/image";
+import Link from "next/link";
 
 function Home() {
   return (
@@ -11,20 +13,18 @@ function Home() {
         about what goes in my head.
       </h1>
       <div className="flex gap-10 my-16">
-        <div className="flex-1 relative h-[500px] aspect-square">
+        <div className="flex-1 relative h-[400px] aspect-square">
           <Image src="/p1.jpeg" alt="header" fill className="object-cover" />
         </div>
-        <div className="flex flex-1 flex-col justify-center gap-6">
-          <h2 className="text-5xl font-bold leading-[1.1]">
+        <div className="flex flex-1 flex-col justify-center gap-4">
+          <span>{`${formatDate(new Date())} - food`}</span>
+          <h2 className="text-5xl font-bold">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </h2>
-          <p className="text-zinc-400 text-lg">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
-            molestias tempore nostrum ullam ex dolor sit deserunt voluptatum?
-            Et, ipsum? Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Esse molestias tempore nostrum ullam ex dolor sit deserunt
-            voluptatum? Et, ipsum?
-          </p>
+          <p className="text-slate-500">by John Doe</p>
+          <Link href="/" className="border-b-2 w-fit px-1 py-1 border-primary">
+            Read More
+          </Link>
         </div>
       </div>
       <CategoryList />
