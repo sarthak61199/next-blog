@@ -2,26 +2,22 @@ import db from "@/lib/db";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { Post } from "@prisma/client";
+import { slugify } from "@/lib/utils";
+import authOptions from "@/lib/next-auth";
 
 export async function POST(req: Request) {
-  const session = await getServerSession();
-  if (!session) {
-    return NextResponse.json(
-      { message: "You are unauthorized" },
-      { status: 401 }
-    );
-  }
-
   try {
-    const { title, desc, catSlug, imgUrl, slug, userId }: Post =
-      await req.json();
+    const session = await getServerSession(authOptions);
+    const userId = session?.user?.id as string;
+    const { title, desc, catSlug, imgUrl }: Post = await req.json();
+    const finalSlug = slugify(title);
     const data = await db.post.create({
       data: {
         title,
         desc,
         catSlug,
         imgUrl,
-        slug,
+        slug: finalSlug,
         userId,
       },
     });

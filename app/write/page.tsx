@@ -3,7 +3,6 @@
 import { FormEvent, useState } from "react";
 import { BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import {
   Select,
@@ -14,22 +13,27 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import useSWR, { Fetcher } from "swr";
+import useSWRMutation from "swr/mutation";
 import { Category } from "@prisma/client";
 import { Loader2 } from "lucide-react";
+import "@uploadthing/react/styles.css";
+import { UploadButton } from "@/lib/uploadthing";
+import Image from "next/image";
 
 function Write() {
   const [title, setTitle] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [category, setCategory] = useState("");
 
   const fetcher: Fetcher<Category[], string> = (...args) =>
     fetch(...args).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR("/api/category", fetcher);
+  const { trigger } = useSWRMutation("/api/write", updateUser);
 
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
-      Image,
       Placeholder.configure({
         placeholder: "Write a description...",
         emptyEditorClass:
@@ -51,6 +55,7 @@ function Write() {
     if (
       title?.length === 0 ||
       category?.length === 0 ||
+      imgUrl?.length === 0 ||
       editor?.getHTML()?.length === 0
     ) {
       return false;
@@ -58,11 +63,23 @@ function Write() {
     return true;
   };
 
+  async function updateUser(url: string) {
+    await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        desc: editor?.getHTML(),
+        imgUrl,
+        catSlug: category,
+      }),
+    });
+  }
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const isValid = validate();
     if (isValid) {
-      console.log(title, category, editor?.getHTML());
+      trigger();
     }
   };
 
@@ -75,7 +92,7 @@ function Write() {
   }
 
   return (
-    <section className="h-[calc(100svh-200px-5rem)]">
+    <section>
       <form className="space-y-8" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -103,6 +120,26 @@ function Write() {
               : null}
           </SelectContent>
         </Select>
+        <UploadButton
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => setImgUrl(res?.[0].url || "")}
+          onUploadError={(error: Error) => {
+            alert(`ERROR! ${error.message}`);
+          }}
+          appearance={{
+            container: "flex w-fit",
+            button: "bg-primary text-primary-foreground text-xl m-0",
+          }}
+        />
+        {Boolean(imgUrl) && (
+          <Image
+            src={imgUrl}
+            height={500}
+            width={500}
+            alt="img"
+            className="object-cover"
+          />
+        )}
         <Button className="text-lg">Publish</Button>
       </form>
     </section>

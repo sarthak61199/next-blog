@@ -7,8 +7,10 @@ import useAuthSession from "@/hooks/useAuthSession";
 import { Loader2 } from "lucide-react";
 
 function CommentInput() {
-  const { isLoading, isLoggedIn } = useAuthSession();
+  const { session, isLoading, isLoggedIn } = useAuthSession();
   const [comment, setComment] = useState<string>("");
+
+  console.log(session);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
